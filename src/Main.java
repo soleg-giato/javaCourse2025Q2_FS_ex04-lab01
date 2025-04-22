@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Main {
 
     /**
@@ -56,22 +58,30 @@ public class Main {
 //        System.out.printf("4 ?= %d", idxBill4);
 //        System.out.println();
 
-        String input = " Аванс 96543 ";
-        String[] validRes = validate(input);
-//        System.out.printf("\"%s\" -> \"%s. %s\"", input, validRes[0], validRes[1]);
-//        System.out.println();
 
-        if (validRes[0].equals("0")) {
-            int idxBill4 = addBill(input);
-            System.out.printf("4 ?= %d", idxBill4);
-            System.out.println();
-        } else {
-            System.out.printf("Ошибка: %s", validRes[1]);
-        }
+        while (Integer.parseInt(validateMenu()[1]) > 0) {
+            //
+        };
 
-        printAllBills();
-
-        printAllCats();
+//        printMenu();
+//
+//        String input = " Аванс 96543 ";
+//        String[] validRes = validate(input);
+////        System.out.printf("\"%s\" -> \"%s. %s\"", input, validRes[0], validRes[1]);
+////        System.out.println();
+//
+//        if (validRes[0].equals("0")) {
+//            int idxBill4 = addBill(input);
+//            System.out.printf("4 ?= %d", idxBill4);
+//            System.out.println();
+//        } else {
+//            System.out.printf("Ошибка: %s", validRes[1]);
+//            System.out.println();
+//        }
+//
+//        printAllBills();
+//
+//        printAllCats();
 
     }
 
@@ -89,16 +99,43 @@ public class Main {
     static void printAllBills() {
 
         System.out.println();
-        System.out.println("Ваши траты/пополнение:");
+        System.out.println("Ваши траты/пополнения:");
         for (int i = 0; i < countBills; i++) {
             System.out.printf("%d. %s %d", i + 1, getCategoryByIdx(arrBills[i][0]), arrBills[i][1]);
             System.out.println();
         }
-        System.out.printf("Всего операций %d, итоговая сумма счета: %d.", countBills, totalAmount);
-        System.out.println();
-
     }
 
+    static void printBillsByName(String categoryName) {
+        int catIdx = findCategory(categoryName);
+
+        if (catIdx > -1) {
+            String name = getCategoryByIdx(catIdx);
+            for (int i = 0; i < countBills; i++) {
+                if (arrBills[i][0] == catIdx) {
+                    System.out.printf("%d. %s %d", i, name, arrBills[i][1]);
+                    System.out.println();
+                }
+            }
+        } else {
+            System.out.printf("Такая категория \"%s\" не существует.", categoryName);
+        }
+    }
+
+    static void printTotal() {
+        System.out.printf("Всего операций %d, итоговая сумма счета: %d.", countBills, totalAmount);
+        System.out.println();
+    }
+
+    static void printMenu() {
+        System.out.println("*******Ваш финансовый помощник*******");
+        System.out.println("[1] Добавить трату/пополнение");
+        System.out.println("[2] Удалить трату/пополнение");
+        System.out.println("[3] Узнать баланс счета");
+        System.out.println("[4] Вывести все траты/пополнения");
+        System.out.println("[5] Вывести траты по категории");
+        System.out.println("[0] Выход");
+    }
 
     static int findCategory(String categoryName) {
 
@@ -113,7 +150,7 @@ public class Main {
 
             // ищем уже имеющуюся категорию
             while (i < countCats) {
-                if (categoryName.equalsIgnoreCase(arrCategories[i])) {
+                if (categoryName.trim().equalsIgnoreCase(arrCategories[i])) {
                     recFound = i;
                     return recFound;
                 }
@@ -153,31 +190,122 @@ public class Main {
         }
 
         int catId = addCategory(categoryName);
-        arrBills[countBills] = new int[] {catId, amount};
+        arrBills[countBills] = new int[]{catId, amount};
         countBills++;
         totalAmount += amount;
 
         return countBills;
     }
 
+    static int removeBill(int billIdx) {
+        if (billIdx < 0 || billIdx > countBills) {
+            System.out.println("Указан неверный номер операции для удаления.");
+            return 1;
+        }
+
+        totalAmount -= arrBills[billIdx - 1][1];
+        // дефрагментация заполненного массива
+        for (int i = billIdx; i < countBills; i++) {
+            arrBills[i - 1] = arrBills[i];
+        }
+        countBills--;
+
+        return 0;
+    }
+
     static String[] validate(String input) {
         String[] res = {"0", "OK - Входные данные прошли все проверки.", ""};
 
         if (input.trim().isEmpty())
-            res = new String[] {"1", "Укажите не пустую строку", ""};
+            res = new String[]{"1", "Укажите не пустую строку", ""};
         else {
             if (input.trim().split(" ")[0].trim().isEmpty())
-                res = new String[] {"2", "Укажите не пустое название категории", ""};
+                res = new String[]{"2", "Укажите не пустое название категории", ""};
 
             if (input.trim().split(" ").length == 1)
-                res = new String[] {"3", "Укажите не пустую сумму по категории", ""};
+                res = new String[]{"3", "Укажите не пустую сумму по категории", ""};
 
-//            if (input.trim().split(" ").length > 1
-//                    && input.trim().split(" ")[1].trim().isEmpty())
-//                res = new String[] {"4", "Укажите не пустую сумму по категории", ""};
         }
 
         return res;
+    }
+
+    static int executeMenu(int menuIdx) {
+        int res = 1;
+
+        switch (menuIdx) {
+            case 0:
+                res = 0;
+                break;
+            case 1:
+                String input = getMenuData("Введите операцию: ");
+                String[] validRes = validate(input);
+
+                if (validRes[0].equals("0")) {
+                    int idxBill = addBill(input);
+                    System.out.printf("newId ?= %d", idxBill);
+                    System.out.println();
+                } else {
+                    System.out.printf("Ошибка: %s", validRes[1]);
+                    System.out.println();
+                }
+                break;
+            case 2:
+                removeBill(Integer.parseInt(getMenuData("Укажите номер операции: ")));
+                break;
+            case 3:
+                printTotal();
+                break;
+            case 4:
+                printAllBills();
+                break;
+            case 5:
+                printBillsByName(getMenuData("Укажите имя категории: "));
+                break;
+            default:
+                validateMenu();
+        }
+
+        return res;
+    }
+
+    static String getMenuData(String msg) {
+        System.out.print(msg);
+        Scanner scr = new Scanner(System.in);
+
+        return scr.nextLine();
+    }
+
+    static String[] validateMenu() {
+
+        String input = "";
+        int validNum = 1;
+
+        // в цикле добиваемся ввода валидных входных данных
+        while (validNum > 0) {
+
+            // читаем входные данные
+            printMenu();
+            input = getMenuData("Ваш выбор: ");
+            System.out.printf("Пришли такие данные: \"%s\"", input);
+            System.out.println();
+
+            // валидируем входные данные
+            if (input.trim().isEmpty()) {
+                System.out.println("Пункт меню не выбран. Введите корректный номер...");
+                System.out.println();
+            } else {
+
+                int res = Integer.parseInt(input.trim());
+                if (res >= 0 && res <= 5) {
+                    validNum = 0;
+                    executeMenu(res);
+                    return new String[]{"0", String.valueOf(res)};
+                } else System.out.println("Выберите номер меню в диапазоне [0..5].");
+            }
+        }
+
+        return new String[]{"0", "0"};
     }
 
 }
