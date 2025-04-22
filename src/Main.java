@@ -56,8 +56,10 @@ public class Main {
 //        System.out.printf("4 ?= %d", idxBill4);
 //        System.out.println();
 
-        String input = "  ";
+        String input = " Аванс 96543 ";
         String[] validRes = validate(input);
+//        System.out.printf("\"%s\" -> \"%s. %s\"", input, validRes[0], validRes[1]);
+//        System.out.println();
 
         if (validRes[0].equals("0")) {
             int idxBill4 = addBill(input);
@@ -161,15 +163,18 @@ public class Main {
     static String[] validate(String input) {
         String[] res = {"0", "OK - Входные данные прошли все проверки.", ""};
 
-        if (input.isEmpty())
+        if (input.trim().isEmpty())
             res = new String[] {"1", "Укажите не пустую строку", ""};
         else {
             if (input.trim().split(" ")[0].trim().isEmpty())
                 res = new String[] {"2", "Укажите не пустое название категории", ""};
 
-            if (input.trim().split(" ").length > 1
-                    && input.trim().split(" ")[1].trim().isEmpty())
+            if (input.trim().split(" ").length == 1)
                 res = new String[] {"3", "Укажите не пустую сумму по категории", ""};
+
+//            if (input.trim().split(" ").length > 1
+//                    && input.trim().split(" ")[1].trim().isEmpty())
+//                res = new String[] {"4", "Укажите не пустую сумму по категории", ""};
         }
 
         return res;
