@@ -22,67 +22,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // тестовые данные
-        // тест добавления категорий
-//        int idx0 = addCategory("Аванс");
-//        System.out.printf("0 ?= %d", idx0);
-//        System.out.println();
-//        int idx1 = addCategory("Продукты");
-//        System.out.printf("1 ?= %d", idx1);
-//        System.out.println();
-//        int idx2 = addCategory("Одежда");
-//        System.out.printf("2 ?= %d", idx2);
-//        System.out.println();
-//        int idx3 = addCategory("Аванс");
-//        System.out.printf("0 ?= %d", idx3);
-//        System.out.println();
-//        int idx4 = addCategory("Аванс");
-//        System.out.printf("0 ?= %d", idx4);
-//        System.out.println();
-
-
-        // тест добавления операций
-//        int idxBill0 = addBill("Аванс 56000");
-//        System.out.printf("0 ?= %d", idxBill0);
-//        System.out.println();
-//        int idxBill1 = addBill("Продукты -27000");
-//        System.out.printf("1 ?= %d", idxBill1);
-//        System.out.println();
-//        int idxBill2 = addBill("Аванс 128000");
-//        System.out.printf("2 ?= %d", idxBill2);
-//        System.out.println();
-//        int idxBill3 = addBill("Одежда -43000");
-//        System.out.printf("3 ?= %d", idxBill3);
-//        System.out.println();
-//        int idxBill4 = addBill("Продукты -33500");
-//        System.out.printf("4 ?= %d", idxBill4);
-//        System.out.println();
-
-
         while (Integer.parseInt(validateMenu()[1]) > 0) {
             //
         };
-
-//        printMenu();
-//
-//        String input = " Аванс 96543 ";
-//        String[] validRes = validate(input);
-////        System.out.printf("\"%s\" -> \"%s. %s\"", input, validRes[0], validRes[1]);
-////        System.out.println();
-//
-//        if (validRes[0].equals("0")) {
-//            int idxBill4 = addBill(input);
-//            System.out.printf("4 ?= %d", idxBill4);
-//            System.out.println();
-//        } else {
-//            System.out.printf("Ошибка: %s", validRes[1]);
-//            System.out.println();
-//        }
-//
-//        printAllBills();
-//
-//        printAllCats();
-
     }
 
     static void printAllCats() {
