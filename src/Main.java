@@ -21,6 +21,7 @@ public class Main {
     public static void main(String[] args) {
 
         // тестовые данные
+        // тест добавления категорий
 //        int idx0 = addCategory("Аванс");
 //        System.out.printf("0 ?= %d", idx0);
 //        System.out.println();
@@ -38,15 +39,33 @@ public class Main {
 //        System.out.println();
 
 
-        int idxBill0 = addBill("Аванс 56000");
-        System.out.printf("0 ?= %d", idxBill0);
-        System.out.println();
-        int idxBill1 = addBill("Продукты -37000");
-        System.out.printf("1 ?= %d", idxBill1);
-        System.out.println();
-        int idxBill2 = addBill("Аванс 128000");
-        System.out.printf("2 ?= %d", idxBill2);
-        System.out.println();
+        // тест добавления операций
+//        int idxBill0 = addBill("Аванс 56000");
+//        System.out.printf("0 ?= %d", idxBill0);
+//        System.out.println();
+//        int idxBill1 = addBill("Продукты -27000");
+//        System.out.printf("1 ?= %d", idxBill1);
+//        System.out.println();
+//        int idxBill2 = addBill("Аванс 128000");
+//        System.out.printf("2 ?= %d", idxBill2);
+//        System.out.println();
+//        int idxBill3 = addBill("Одежда -43000");
+//        System.out.printf("3 ?= %d", idxBill3);
+//        System.out.println();
+//        int idxBill4 = addBill("Продукты -33500");
+//        System.out.printf("4 ?= %d", idxBill4);
+//        System.out.println();
+
+        String input = "  ";
+        String[] validRes = validate(input);
+
+        if (validRes[0].equals("0")) {
+            int idxBill4 = addBill(input);
+            System.out.printf("4 ?= %d", idxBill4);
+            System.out.println();
+        } else {
+            System.out.printf("Ошибка: %s", validRes[1]);
+        }
 
         printAllBills();
 
@@ -122,7 +141,6 @@ public class Main {
     }
 
     static int addBill(String bill) {
-        // validate();
         String categoryName = bill.trim().split(" ")[0].trim();
         int amount = Integer.parseInt(bill.trim().split(" ")[1]);
 
@@ -138,6 +156,23 @@ public class Main {
         totalAmount += amount;
 
         return countBills;
+    }
+
+    static String[] validate(String input) {
+        String[] res = {"0", "OK - Входные данные прошли все проверки.", ""};
+
+        if (input.isEmpty())
+            res = new String[] {"1", "Укажите не пустую строку", ""};
+        else {
+            if (input.trim().split(" ")[0].trim().isEmpty())
+                res = new String[] {"2", "Укажите не пустое название категории", ""};
+
+            if (input.trim().split(" ").length > 1
+                    && input.trim().split(" ")[1].trim().isEmpty())
+                res = new String[] {"3", "Укажите не пустую сумму по категории", ""};
+        }
+
+        return res;
     }
 
 }
